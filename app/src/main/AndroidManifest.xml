@@ -19,6 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:authorities="com.rockman88.mynotes.notesdao"
+            android:name=".dao.NotesDao"
+            android:exported="false" />
     </application>
-
 </manifest>
