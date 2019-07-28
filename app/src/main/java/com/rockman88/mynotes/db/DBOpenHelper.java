@@ -16,6 +16,9 @@ public class DBOpenHelper extends SQLiteOpenHelper{
     public static final String NOTE_TEXT = "noteText";
     public static final String NOTE_CREATED = "noteCreated";
 
+    public static final String[] ALL_COLUMNS =
+            {"_id", "noteText", "noteCreated"};
+
     //SQL to create table
     private static final String TABLE_CREATE =
             "CREATE TABLE " + TABLE_NOTES + " (" +
