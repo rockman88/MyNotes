@@ -9,9 +9,9 @@ import android.net.Uri;
 
 import com.rockman88.mynotes.db.DBOpenHelper;
 
-public class NotesDao extends ContentProvider {
+public class NotesProvider extends ContentProvider {
 
-    private static final String AUTHORITY = "com.rockman88.mynotes.notesdao";
+    private static final String AUTHORITY = "com.rockman88.mynotes.dao.NotesProvider";
     private static final String BASE_PATH = "mynotes";
     public static final Uri CONTENT_URI =
             Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH );
@@ -22,6 +22,8 @@ public class NotesDao extends ContentProvider {
 
     private static final UriMatcher uriMatcher =
             new UriMatcher(UriMatcher.NO_MATCH);
+
+    public static final String CONTENT_ITEM_TYPE = "Note";
 
     static {
         uriMatcher.addURI(AUTHORITY, BASE_PATH, NOTES);
@@ -40,6 +42,11 @@ public class NotesDao extends ContentProvider {
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+
+        if (uriMatcher.match(uri) == NOTES_ID) {
+            selection = DBOpenHelper.NOTE_ID + "=" + uri.getLastPathSegment();
+        }
+
         return database.query(DBOpenHelper.TABLE_NOTES, DBOpenHelper.ALL_COLUMNS,
                 selection, null, null, null,
                 DBOpenHelper.NOTE_CREATED + " DESC");
