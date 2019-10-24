@@ -1,6 +1,8 @@
 package com.rockman88.mynotes;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -11,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.rockman88.mynotes.config.Config;
 import com.rockman88.mynotes.dao.NotesProvider;
 import com.rockman88.mynotes.db.DBOpenHelper;
 
@@ -75,12 +78,26 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void deleteNote() {
-        getContentResolver().delete(NotesProvider.CONTENT_URI,
-                noteFilter, null);
-        Toast.makeText(this, getString(R.string.note_deleted),
-                Toast.LENGTH_SHORT).show();
-        setResult(RESULT_OK);
-        finish();
+
+        DialogInterface.OnClickListener dialogClickListener =
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int button) {
+                        if (button == DialogInterface.BUTTON_POSITIVE) {
+                            getContentResolver().delete(NotesProvider.CONTENT_URI,
+                                    noteFilter, null);
+
+                            setResult(Config.NOTE_DELETE);
+                            finish();
+                        }
+                    }
+                };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.are_you_sure))
+                .setPositiveButton(getString(android.R.string.yes), dialogClickListener)
+                .setNegativeButton(getString(android.R.string.no), dialogClickListener)
+                .show();
     }
 
     private void finishEditing() {

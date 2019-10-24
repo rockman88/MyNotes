@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.rockman88.mynotes.adaptor.NotesCursorAdapter;
+import com.rockman88.mynotes.config.Config;
 import com.rockman88.mynotes.dao.NotesProvider;
 import com.rockman88.mynotes.db.DBOpenHelper;
 
@@ -150,6 +151,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == EDITOR_REQUEST_CODE && resultCode == RESULT_OK) {
+            restartLoader();
+        } else if (requestCode == EDITOR_REQUEST_CODE && resultCode == Config.NOTE_DELETE) {
+
+            Toast.makeText(this, "Note deleted", Toast.LENGTH_SHORT).show();
+            
             restartLoader();
         }
     }
