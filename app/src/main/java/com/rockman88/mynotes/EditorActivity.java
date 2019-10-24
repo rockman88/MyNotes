@@ -27,7 +27,7 @@ public class EditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        editor = (EditText) findViewById(R.id.editText);
+        editor = findViewById(R.id.editText);
 
         Intent intent = getIntent();
 
@@ -45,7 +45,8 @@ public class EditorActivity extends AppCompatActivity {
             cursor.moveToFirst();
             oldText = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_TEXT));
             editor.setText(oldText);
-            editor.requestFocus();
+
+            cursor.close();
         }
     }
 
@@ -60,7 +61,6 @@ public class EditorActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
         switch (item.getItemId()) {
             case android.R.id.home:
